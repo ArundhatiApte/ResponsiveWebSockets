@@ -1,0 +1,5 @@
+project/modules/client/target/
+project/modules/responsiveWebSocketConnection/target/
+project/modules/server/target/
+project/modules/tests/target/
+project/modules/examples/target/
