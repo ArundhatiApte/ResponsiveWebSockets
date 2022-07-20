@@ -1,9 +1,9 @@
-package rws.tests.testResponsiveWebSockets.checks.utils;
+package rws.tests.utils;
 
 import java.util.concurrent.CompletableFuture;
 
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
 
 final object createTimeoutForPromise {
   def apply(promise: CompletableFuture[Void], timeMs: Int = 2000): Timeout = {

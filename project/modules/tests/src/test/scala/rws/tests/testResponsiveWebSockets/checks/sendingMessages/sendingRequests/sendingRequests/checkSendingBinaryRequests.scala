@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import scala.collection.mutable.ArrayBuffer;
 import scala.collection.mutable.Map;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 import rws.common.responsiveWebSocketConnection.api.ResponseSender;
 
 import rws.tests.utils.VoidEventsListener;
@@ -15,7 +15,7 @@ import rws.tests.testResponsiveWebSockets.checks.sendingMessages.utils.createByt
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.CheckingSendingRequestsFn;
 
 final object checkSendingBinaryRequests extends CheckingSendingRequestsFn[ByteBuffer] {
-  override def _getStartIndexOfBodyInResponse(sender: RWSC): Int = {
+  override def _getStartIndexOfBodyInResponse(sender: Rwsc): Int = {
     sender.getStartIndexOfBodyInBinaryResponse();
   }
 
@@ -28,10 +28,10 @@ final object checkSendingBinaryRequests extends CheckingSendingRequestsFn[ByteBu
     );
   }
 
-  override def _createSendingResponseEventsListener(): ResponsiveWsConnection.EventsListener = {
+  override def _createSendingResponseEventsListener(): Rwsc.EventsListener = {
     new VoidEventsListener() {
       override def onBinaryRequest(
-        rwsc: RWSC,
+        c: Rwsc,
         messageWithHeader: ByteBuffer,
         startIndex: Int,
         responseSender: ResponseSender
@@ -50,7 +50,7 @@ final object checkSendingBinaryRequests extends CheckingSendingRequestsFn[ByteBu
   }
 
   override def _sendMessageToReceiverAndAddResponseToMap(
-    sender: RWSC,
+    sender: Rwsc,
     message: ByteBuffer,
     startIndexOfBodyInResponse: Int,
     sendedMessageToReceivedResponse: Map[ByteBuffer, ByteBuffer]

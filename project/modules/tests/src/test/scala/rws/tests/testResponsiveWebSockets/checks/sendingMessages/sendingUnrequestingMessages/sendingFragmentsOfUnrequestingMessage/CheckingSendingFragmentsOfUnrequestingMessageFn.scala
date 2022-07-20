@@ -2,22 +2,20 @@ package rws.tests.testResponsiveWebSockets.checks.sendingMessages;
 
 import java.util.concurrent.CompletableFuture;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
 abstract class CheckingSendingFragmentsOfUnrequestingMessageFn[Content] extends Function2[
-  ResponsiveWsConnection,
-  ResponsiveWsConnection,
+  Rwsc,
+  Rwsc,
   CompletableFuture[Void]
 ] {
-  protected type RWSC = ResponsiveWsConnection;
-
   override def apply(
-    sender: ResponsiveWsConnection,
-    receiver: ResponsiveWsConnection
+    sender: Rwsc,
+    receiver: Rwsc
   ): CompletableFuture[Void] = {
     val checking = new CompletableFuture[Void]();
     val timeoutForCheck = createTimeoutForPromise(checking);
@@ -37,7 +35,7 @@ abstract class CheckingSendingFragmentsOfUnrequestingMessageFn[Content] extends 
     fullMessage: Content,
     timeoutForCheck: Timeout,
     checking: CompletableFuture[Void]
-  ): ResponsiveWsConnection.EventsListener;
+  ): Rwsc.EventsListener;
 
-  protected def _sendFragmentsOfUnrequestingMessage(sender: RWSC, fragmentsOfMessage: Array[Content]): Unit;
+  protected def _sendFragmentsOfUnrequestingMessage(sender: Rwsc, fragmentsOfMessage: Array[Content]): Unit;
 }

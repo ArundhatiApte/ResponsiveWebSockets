@@ -5,22 +5,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
 import rws.tests.utils.execOrReject;
-
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
 abstract class CheckingSendingManyBinaryRequestsAtOnceFn[Content] extends Function2[
-  ResponsiveWsConnection,
-  ResponsiveWsConnection,
+  Rwsc,
+  Rwsc,
   CompletableFuture[Void]
 ] {
-  protected type RWSC = ResponsiveWsConnection;
-
-  override final def apply(sender: RWSC, receiver: RWSC): CompletableFuture[Void] = {
+  override final def apply(sender: Rwsc, receiver: Rwsc): CompletableFuture[Void] = {
     val checking = new CompletableFuture[Void]();
     val maxTimeMsForCheck = 8000;
     val timeoutForCheck = createTimeoutForPromise(checking, maxTimeMsForCheck);
@@ -74,7 +71,7 @@ abstract class CheckingSendingManyBinaryRequestsAtOnceFn[Content] extends Functi
     checking;
   }
 
-  protected def _createSendingResponseEventsListener(): ResponsiveWsConnection.EventsListener;
+  protected def _createSendingResponseEventsListener(): Rwsc.EventsListener;
 
   private def _createSendedMessage(): Int = {
     (Math.random() * 100_000).toInt;
@@ -86,11 +83,11 @@ abstract class CheckingSendingManyBinaryRequestsAtOnceFn[Content] extends Functi
     n * _multipler;
   }
 
-  protected def _getStartIndexOfBodyInResponse(sender: RWSC): Int;
+  protected def _getStartIndexOfBodyInResponse(sender: Rwsc): Int;
 
   private def _sendRequestAndAddReceivedResponse(
     pool: Executor,
-    sender: RWSC,
+    sender: Rwsc,
     message: Int,
     startIndexOfBodyInResponse: Int,
     receivedResponses: Array[Int],
@@ -109,12 +106,12 @@ abstract class CheckingSendingManyBinaryRequestsAtOnceFn[Content] extends Functi
     future;
   }
 
-  protected def _sendRequest(sender: RWSC, message: Int): CompletableFuture[Content];
+  protected def _sendRequest(sender: Rwsc, message: Int): CompletableFuture[Content];
   protected def _extractMessageFromResponse(response: Content, startIndexOfBodyInResponse: Int): Int;
 
   private def _sendOneRequestThenCompareResponses(
     pool: Executor,
-    sender: RWSC,
+    sender: Rwsc,
     sendedMessage: Int,
     indexInResponses: Int,
     startIndexOfBodyInResponse: Int,

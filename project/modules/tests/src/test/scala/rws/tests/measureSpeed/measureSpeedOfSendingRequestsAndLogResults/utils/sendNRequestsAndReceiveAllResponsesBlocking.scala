@@ -2,19 +2,17 @@ package rws.tests.measureSpeed;
 
 import java.util.concurrent.CompletableFuture;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
 import rws.tests.utils.await;
 
 final object sendNRequestsAndReceiveAllResponsesBlocking {
-  private type RWSC = ResponsiveWsConnection;
-
   def apply[Content](
-    sender: RWSC,
-    receiver: RWSC,
+    sender: Rwsc,
+    receiver: Rwsc,
     totalCountOfRequestsToSend: Int,
     createMessageByNumberOfRequest: (Int) => Content,
-    sendRequestAndReceiveResponse: (RWSC, Content) => CompletableFuture[_]
+    sendRequestAndReceiveResponse: (Rwsc, Content) => CompletableFuture[_]
   ): Unit = {
     val maxCountOfRequestsAtOnce = _maxCountOfRequestsAtOnce;
     var countOfRequestsToSend = totalCountOfRequestsToSend;
@@ -43,14 +41,14 @@ final object sendNRequestsAndReceiveAllResponsesBlocking {
     }
   }
 
-  private val _maxCountOfRequestsAtOnce = (Math.pow(2, 16) - 1).toInt;
+  private val _maxCountOfRequestsAtOnce = { (Math.pow(2, 16) - 1).toInt; }
 
   private def _sendRequestsAndReceiveAllResponses[Content](
-    sender: RWSC,
-    receiver: RWSC,
+    sender: Rwsc,
+    receiver: Rwsc,
     countOfRequestsToSend: Int,
     createMessageByNumberOfRequest: (Int) => Content,
-    sendRequestAndReceiveResponse: (RWSC, Content) => CompletableFuture[_],
+    sendRequestAndReceiveResponse: (Rwsc, Content) => CompletableFuture[_],
   ): CompletableFuture[_] = {
     val sendingRequests = new Array[CompletableFuture[_]](countOfRequestsToSend);
 

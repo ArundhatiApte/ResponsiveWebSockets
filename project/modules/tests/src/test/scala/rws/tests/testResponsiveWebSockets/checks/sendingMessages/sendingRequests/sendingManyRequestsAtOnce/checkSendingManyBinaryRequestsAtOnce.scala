@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 import rws.common.responsiveWebSocketConnection.api.ResponseSender;
 
 import rws.tests.utils.execOrReject;
@@ -13,10 +13,10 @@ import rws.tests.utils.VoidEventsListener;
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.CheckingSendingManyBinaryRequestsAtOnceFn;
 
 final object checkSendingManyBinaryRequestsAtOnce extends CheckingSendingManyBinaryRequestsAtOnceFn[ByteBuffer] {
-  override def _createSendingResponseEventsListener(): ResponsiveWsConnection.EventsListener = {
+  override def _createSendingResponseEventsListener(): Rwsc.EventsListener = {
     new VoidEventsListener() {
       override def onBinaryRequest(
-        c: RWSC,
+        c: Rwsc,
         messageWithHeader: ByteBuffer,
         startIndex: Int,
         responseSender: ResponseSender
@@ -27,11 +27,11 @@ final object checkSendingManyBinaryRequestsAtOnce extends CheckingSendingManyBin
     };
   }
 
-  override def _getStartIndexOfBodyInResponse(sender: RWSC): Int = {
+  override def _getStartIndexOfBodyInResponse(sender: Rwsc): Int = {
     sender.getStartIndexOfBodyInBinaryResponse();
   }
 
-  override def _sendRequest(sender: RWSC, message: Int): CompletableFuture[ByteBuffer] = {
+  override def _sendRequest(sender: Rwsc, message: Int): CompletableFuture[ByteBuffer] = {
     sender.sendBinaryRequest(utilsForByteBuffer.createByteBufferWithInt32(message));
   }
 

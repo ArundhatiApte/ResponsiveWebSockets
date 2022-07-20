@@ -5,22 +5,20 @@ import java.util.concurrent.CountDownLatch;
 
 import scala.collection.mutable.ArrayBuffer;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
 import rws.tests.utils.HolderOfValue;
 
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
 abstract class СheckingSendingUnrequestingMessagesFn[Content <: Comparable[Content]] extends Function2[
-  ResponsiveWsConnection,
-  ResponsiveWsConnection,
+  Rwsc,
+  Rwsc,
   CompletableFuture[Void]
 ] {
-  protected type RWSC = ResponsiveWsConnection;
-
-  override final def apply(sender: RWSC, receiver: RWSC): CompletableFuture[Void] = {
+  override final def apply(sender: Rwsc, receiver: Rwsc): CompletableFuture[Void] = {
     val checking = new CompletableFuture[Void]();
     val timeoutForCheck = createTimeoutForPromise(checking);
 
@@ -55,7 +53,7 @@ abstract class СheckingSendingUnrequestingMessagesFn[Content <: Comparable[Cont
     sendedMessages: Array[Content],
     waitingToSendAllMessages: CountDownLatch,
     checking: CompletableFuture[Void]
-  ): ResponsiveWsConnection.EventsListener;
+  ): Rwsc.EventsListener;
 
   protected final def _addMessageThenCompareIfAll(
     countOfMessagesHolder: HolderOfValue[Int],
@@ -82,7 +80,7 @@ abstract class СheckingSendingUnrequestingMessagesFn[Content <: Comparable[Cont
     }
   }
 
-  protected def _sendUnrequestingMessage(sender: ResponsiveWsConnection, message: Content): Unit;
+  protected def _sendUnrequestingMessage(sender: Rwsc, message: Content): Unit;
 
   private def _areArraysOfMessagesEqual(a: Array[Content], b: ArrayBuffer[Content]): Boolean = {
     val aLength = a.length;

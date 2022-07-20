@@ -11,7 +11,7 @@ public final class BinaryMessager {
   public static final BinaryMessager instance = new BinaryMessager();
 
   public final int sizeOfHeaderForRequestOrResponse = 3;
-  public final int sizeOfHeaderForUnrequestingMessage = 3;
+  public final int sizeOfHeaderForUnrequestingMessage = 1;
 
   private static final class _ByteHeader {
     public static final byte request = 1;

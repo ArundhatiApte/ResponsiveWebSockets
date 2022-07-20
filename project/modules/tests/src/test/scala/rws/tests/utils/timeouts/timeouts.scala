@@ -1,4 +1,4 @@
-package rws.tests.testResponsiveWebSockets.checks.utils;
+package rws.tests.utils;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

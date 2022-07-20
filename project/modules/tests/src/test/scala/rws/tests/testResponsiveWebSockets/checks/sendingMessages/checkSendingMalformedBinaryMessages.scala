@@ -5,27 +5,24 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 
 import rws.common.webSocketConnection.WebSocketConnection;
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 import rws.common.responsiveWebSocketConnection.impl.ResponsiveWsConnectionImpl;
 
 import rws.tests.utils.execOrReject;
 import rws.tests.utils.HolderOfValue;
 import rws.tests.utils.VoidEventsListener;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.utils.createByteBufferFromUint8s;
 
 final object checkSendingMalformedBinaryMessages extends Function2[
-  ResponsiveWsConnection,
-  ResponsiveWsConnection,
+  Rwsc,
+  Rwsc,
   CompletableFuture[Void]
 ] {
-  override def apply(
-    sender: ResponsiveWsConnection,
-    receiver: ResponsiveWsConnection
-  ): CompletableFuture[Void] = {
+  override def apply(sender: Rwsc, receiver: Rwsc): CompletableFuture[Void] = {
     val checking = new CompletableFuture[Void]();
     val timeoutForCheck = createTimeoutForPromise(checking);
 
@@ -59,9 +56,9 @@ final object checkSendingMalformedBinaryMessages extends Function2[
     holderOfMalformedMessagesToReceiveCount: HolderOfValue[Int],
     timeoutForCheck: Timeout,
     checking: CompletableFuture[Void]
-  ): ResponsiveWsConnection.EventsListener = {
+  ): Rwsc.EventsListener = {
     return new VoidEventsListener() {
-      override def onMalformedBinaryMessage(rwsc: ResponsiveWsConnection, message: ByteBuffer): Unit = {
+      override def onMalformedBinaryMessage(c: Rwsc, message: ByteBuffer): Unit = {
         execOrReject(() => {
           var countOfMalformedMessagesToReceive = holderOfMalformedMessagesToReceiveCount.get();
           countOfMalformedMessagesToReceive -= 1;

@@ -10,13 +10,12 @@ import rws.client.api.ResponsiveWsClient;
 import rws.client.impl.ResponsiveWsClientImpl;
 
 import rws.tests.utils.await;
-import rws.tests.utils.getRandomIntFromRange;
 import rws.tests.utils.createServerConnectionToClient;
 
 import rws.tests.measureSpeed.measureSpeedOfSendingRequestsAndLogResultsBlocking;
 
 object MeasuringSpeedOfSendingRequestsScript extends App {
-  val port = getRandomIntFromRange(30_000, 40_000);
+  val port = rws.tests.ports.forMeasuringSpeed;
   val server: ResponsiveWsServer = new ResponsiveWsServerImpl(new InetSocketAddress(port));
   await(server.start());
 

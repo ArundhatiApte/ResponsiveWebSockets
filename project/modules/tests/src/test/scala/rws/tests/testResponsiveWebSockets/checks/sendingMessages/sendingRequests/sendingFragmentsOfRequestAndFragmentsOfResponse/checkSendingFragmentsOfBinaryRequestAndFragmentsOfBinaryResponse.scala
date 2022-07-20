@@ -5,14 +5,13 @@ import java.util.concurrent.CompletableFuture;
 
 import scala.collection.mutable.Map;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 import rws.common.responsiveWebSocketConnection.api.ResponseSender;
 
 import rws.tests.utils.execOrReject;
 import rws.tests.utils.VoidEventsListener;
-
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
 
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.utils.createByteBufferFromUint8s;
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.CheckingSendingFragmentsOfRequestAndFragmentsOfResponseFn;
@@ -45,7 +44,7 @@ final object checkSendingFragmentsOfBinaryRequestAndFragmentsOfBinaryResponse ex
     );
   }
 
-  override def _getStartIndexOfBodyInResponse(sender: RWSC): Int = {
+  override def _getStartIndexOfBodyInResponse(sender: Rwsc): Int = {
     sender.getStartIndexOfBodyInBinaryResponse();
   }
 
@@ -54,10 +53,10 @@ final object checkSendingFragmentsOfBinaryRequestAndFragmentsOfBinaryResponse ex
     timeoutForCheck: Timeout,
     checking: CompletableFuture[Void],
     fragmentsOfResponse: Array[ByteBuffer]
-  ): ResponsiveWsConnection.EventsListener = {
+  ): Rwsc.EventsListener = {
     new VoidEventsListener() {
       override def onBinaryRequest(
-        rwsc: RWSC,
+        c: Rwsc,
         messageWithHeader: ByteBuffer,
         startIndex: Int,
         responseSender: ResponseSender
@@ -75,7 +74,7 @@ final object checkSendingFragmentsOfBinaryRequestAndFragmentsOfBinaryResponse ex
     };
   }
 
-  override def _sendFragmentsOfRequest(sender: RWSC, fragmentsOfRequest: Array[ByteBuffer]): CompletableFuture[ByteBuffer] = {
+  override def _sendFragmentsOfRequest(sender: Rwsc, fragmentsOfRequest: Array[ByteBuffer]): CompletableFuture[ByteBuffer] = {
     sender.sendFragmentsOfBinaryRequest(fragmentsOfRequest: _*);
   }
 
@@ -83,6 +82,6 @@ final object checkSendingFragmentsOfBinaryRequestAndFragmentsOfBinaryResponse ex
     // ok, a and b are never be used in other place
     a.position(startIndexInA);
     b.position(startIndexInB);
-    return a.equals(b);
+    a.equals(b);
   }
 }

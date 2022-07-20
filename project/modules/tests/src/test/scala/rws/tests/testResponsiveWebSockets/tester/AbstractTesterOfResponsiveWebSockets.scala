@@ -71,11 +71,15 @@ abstract class AbstractTesterOfResponsiveWebSockets(
 
   private def _createFnToTestFromServerToClient(
     check: (ResponsiveWsConnection, ResponsiveWsConnection) => CompletableFuture[Void]
-  ) = () => check(_serverConnection, _clientConnection)
+  ): () => CompletableFuture[Void] = {
+    () => check(_serverConnection, _clientConnection)
+  }
 
   private def _createFnToTestFromClientToServer(
     check: (ResponsiveWsConnection, ResponsiveWsConnection) => CompletableFuture[Void]
-  ) = () => check(_clientConnection, _serverConnection)
+  ): () => CompletableFuture[Void] = {
+    () => check(_clientConnection, _serverConnection)
+  }
 
   protected final class AddingTestsImpl extends AddingTests {
     override def addAsyncTest(nameOfTest: String, fnForTest: () => CompletableFuture[Void]): Unit = {

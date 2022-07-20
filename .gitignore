@@ -2,4 +2,6 @@ project/modules/client/target/
 project/modules/responsiveWebSocketConnection/target/
 project/modules/server/target/
 project/modules/tests/target/
+project/modules/tests/package-lock.json
+project/modules/tests/node_modules/
 project/modules/examples/target/

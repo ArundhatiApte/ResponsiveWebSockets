@@ -10,7 +10,6 @@ import rws.client.impl.ResponsiveWsClientImpl;
 import rws.server.api.ResponsiveWsServerConnection;
 import rws.server.impl.ResponsiveWsServerImpl;
 
-import rws.tests.utils.getRandomIntFromRange;
 import rws.tests.testResponsiveWebSockets.tester.AbstractTesterOfResponsiveWebSockets;
 
 final class TesterOfResponsiveWebSockets extends AbstractTesterOfResponsiveWebSockets (
@@ -23,5 +22,5 @@ final class TesterOfResponsiveWebSockets extends AbstractTesterOfResponsiveWebSo
 }
 
 final object TesterOfResponsiveWebSockets {
-  protected val _port = getRandomIntFromRange(20000, 30000);
+  protected val _port = rws.tests.ports.forTestingResponsiveWebSockets;
 }

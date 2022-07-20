@@ -5,22 +5,20 @@ import java.util.concurrent.CompletableFuture;
 import scala.collection.mutable.ArrayBuffer;
 import scala.collection.mutable.Map;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
 import rws.tests.utils.execOrReject;
 
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
 abstract class CheckingSendingFragmentsOfRequestAndFragmentsOfResponseFn[Content] extends Function2[
-  ResponsiveWsConnection,
-  ResponsiveWsConnection,
+  Rwsc,
+  Rwsc,
   CompletableFuture[Void]
 ] {
-  protected type RWSC = ResponsiveWsConnection;
-
-  override def apply(sender: RWSC, receiver: RWSC): CompletableFuture[Void] = {
+  override def apply(sender: Rwsc, receiver: Rwsc): CompletableFuture[Void] = {
     val checking = new CompletableFuture[Void]();
     val timeoutForCheck = createTimeoutForPromise(checking, 2000);
 
@@ -39,17 +37,17 @@ abstract class CheckingSendingFragmentsOfRequestAndFragmentsOfResponseFn[Content
   protected def _getFragmentsOfRequest(): Array[Content];
   protected def _getFullResponse(): Content;
   protected def _getFragmentsOfResponse(): Array[Content];
-  protected def _getStartIndexOfBodyInResponse(sender: RWSC): Int;
+  protected def _getStartIndexOfBodyInResponse(sender: Rwsc): Int;
 
   protected def _createEventsListener(
     fullRequest: Content,
     timeoutForCheck: Timeout,
     checking: CompletableFuture[Void],
     fragmentsOfResponse: Array[Content]
-  ): ResponsiveWsConnection.EventsListener;
+  ): Rwsc.EventsListener;
 
   private def _sendRequestThenCheckResponse(
-    sender: RWSC,
+    sender: Rwsc,
     fragmentsOfRequest: Array[Content],
     fullResponse: Content,
     startIndexOfBodyInResponse: Int,
@@ -70,6 +68,6 @@ abstract class CheckingSendingFragmentsOfRequestAndFragmentsOfResponseFn[Content
     });
   }
 
-  protected def _sendFragmentsOfRequest(sender: RWSC, fragmentsOfRequest: Array[Content]): CompletableFuture[Content];
+  protected def _sendFragmentsOfRequest(sender: Rwsc, fragmentsOfRequest: Array[Content]): CompletableFuture[Content];
   protected def _areMessagesEqual(a: Content, startIndexInA: Int, b: Content, startIndexInB: Int): Boolean;
 }

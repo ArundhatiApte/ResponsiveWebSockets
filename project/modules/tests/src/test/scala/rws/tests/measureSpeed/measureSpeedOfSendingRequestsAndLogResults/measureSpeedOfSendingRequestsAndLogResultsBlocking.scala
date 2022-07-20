@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 import rws.common.responsiveWebSocketConnection.api.ResponseSender;
 
 import rws.tests.utils.VoidEventsListener;
@@ -13,11 +13,9 @@ import rws.tests.measureSpeed.sendNRequestsAndReceiveAllResponsesBlocking;
 import rws.tests.measureSpeed.measureSpeedOfSendingRequestsBlocking;
 
 final object measureSpeedOfSendingRequestsAndLogResultsBlocking {
-  type RWSC = ResponsiveWsConnection;
-
   def apply(
-    serverConnection: RWSC,
-    clientConnection: RWSC,
+    serverConnection: Rwsc,
+    clientConnection: Rwsc,
     countOfRequests: Int,
     writableStream: PrintStream
   ): Unit = {
@@ -26,19 +24,19 @@ final object measureSpeedOfSendingRequestsAndLogResultsBlocking {
     val createMessageByNumberOfRequest = (num: Int) => {
       ByteBuffer.wrap(Array[Byte](num.toByte, (num * 2).toByte, (num * 3).toByte, (num * 4).toByte));
     };
-    val sendBinaryRequestAndReceiveResponse = (connection: RWSC, message: ByteBuffer) => {
+    val sendBinaryRequestAndReceiveResponse = (connection: Rwsc, message: ByteBuffer) => {
       connection.sendBinaryRequest(message);
     };
 
     val sendingBinaryResponseListener = new VoidEventsListener() {
-      override def onBinaryRequest(c: RWSC, m: ByteBuffer, startIndex: Int, r: ResponseSender): Unit = {
+      override def onBinaryRequest(c: Rwsc, m: ByteBuffer, startIndex: Int, r: ResponseSender): Unit = {
         val bytes = m.array();
         r.sendBinaryResponse(ByteBuffer.wrap(
           Array[Byte](bytes(startIndex + 3), bytes(startIndex + 2), bytes(startIndex + 1), bytes(startIndex))
         ));
       }
     };
-    val setSendingResponseListenerOfRequest: (RWSC) => Unit = (connection: RWSC) => {
+    val setSendingResponseListenerOfRequest: (Rwsc) => Unit = (connection: Rwsc) => {
       connection.setEventsListener(sendingBinaryResponseListener);
     };
 
@@ -56,7 +54,7 @@ final object measureSpeedOfSendingRequestsAndLogResultsBlocking {
     );
   }
 
-  private final class _Case(labelOfDirectionI: String, senderI: RWSC, receiverI: RWSC) {
+  private final class _Case(labelOfDirectionI: String, senderI: Rwsc, receiverI: Rwsc) {
     val labelOfDirection = labelOfDirectionI;
     val sender = senderI;
     val receiver = receiverI;
@@ -66,8 +64,8 @@ final object measureSpeedOfSendingRequestsAndLogResultsBlocking {
     countOfRequests: Int,
     casesForRequests: Array[_Case],
     createMessageByNumberOfRequest: (Int) => Content,
-    sendRequestAndReceiveResponse: (RWSC, Content) => CompletableFuture[_],
-    setSendingResponseListenerOfRequest: (RWSC) => Unit,
+    sendRequestAndReceiveResponse: (Rwsc, Content) => CompletableFuture[_],
+    setSendingResponseListenerOfRequest: (Rwsc) => Unit,
     writableStream: PrintStream
   ): Unit = {
     for (config <- casesForRequests) {
@@ -85,12 +83,12 @@ final object measureSpeedOfSendingRequestsAndLogResultsBlocking {
   }
 
   private def _measureSpeedOfSendingRequestsBlockingAndLogResult[Content](
-    sender: RWSC,
-    receiver: RWSC,
+    sender: Rwsc,
+    receiver: Rwsc,
     countOfRequests: Int,
     createMessageByNumberOfRequest: (Int) => Content,
-    sendRequestAndReceiveResponse: (RWSC, Content) => CompletableFuture[_],
-    setSendingResponseListenerOfRequest: (RWSC) => Unit,
+    sendRequestAndReceiveResponse: (Rwsc, Content) => CompletableFuture[_],
+    setSendingResponseListenerOfRequest: (Rwsc) => Unit,
     writableStream: PrintStream,
     direction: String
   ): Unit = {

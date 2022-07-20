@@ -11,10 +11,8 @@ import rws.server.api.ResponsiveWsServerConnection;
 import rws.server.api.HandshakeAction;
 
 import rws.tests.utils.execOrReject;
-import rws.tests.utils.voidEventsListener;
-
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
-import rws.tests.testResponsiveWebSockets.checks.utils.createTimeoutForPromise;
+import rws.tests.utils.timeouts.Timeout;
+import rws.tests.utils.createTimeoutForPromise;
 
 final object checkRejectingRequestOnUpgrade {
   def apply(

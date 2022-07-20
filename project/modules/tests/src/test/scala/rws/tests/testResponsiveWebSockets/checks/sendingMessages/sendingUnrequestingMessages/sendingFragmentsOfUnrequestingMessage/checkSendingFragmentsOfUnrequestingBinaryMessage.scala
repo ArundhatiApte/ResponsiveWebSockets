@@ -3,12 +3,11 @@ package rws.tests.testResponsiveWebSockets.checks.sendingMessages;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 
-import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection;
+import rws.common.responsiveWebSocketConnection.api.{ResponsiveWsConnection => Rwsc};
 
 import rws.tests.utils.VoidEventsListener;
-
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts;
-import rws.tests.testResponsiveWebSockets.checks.utils.timeouts.Timeout;
+import rws.tests.utils.timeouts;
+import rws.tests.utils.timeouts.Timeout;
 
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.utils.createByteBufferFromUint8s;
 import rws.tests.testResponsiveWebSockets.checks.sendingMessages.CheckingSendingFragmentsOfUnrequestingMessageFn;
@@ -38,12 +37,12 @@ final object checkSendingFragmentsOfUnrequestingBinaryMessage extends CheckingSe
     fullMessage: ByteBuffer,
     timeoutForCheck: Timeout,
     checking: CompletableFuture[Void]
-  ): ResponsiveWsConnection.EventsListener = {
+  ): Rwsc.EventsListener = {
     new VoidEventsListener() {
-      override def onUnrequestingBinaryMessage(rwsc: RWSC, messageWithHeader: ByteBuffer, startIndex: Int): Unit = {
+      override def onUnrequestingBinaryMessage(c: Rwsc, messageWithHeader: ByteBuffer, startIndex: Int): Unit = {
         timeouts.clearTimeout(timeoutForCheck);
         messageWithHeader.position(startIndex);
-        if (fullMessage.compareTo(messageWithHeader) == 0) {
+        if (fullMessage.equals(messageWithHeader)) {
           checking.complete(null);
         } else {
           checking.completeExceptionally(new RuntimeException("Different messages."));
@@ -52,7 +51,7 @@ final object checkSendingFragmentsOfUnrequestingBinaryMessage extends CheckingSe
     };
   }
 
-  override def _sendFragmentsOfUnrequestingMessage(sender: RWSC, fragmentsOfMessage: Array[ByteBuffer]): Unit = {
+  override def _sendFragmentsOfUnrequestingMessage(sender: Rwsc, fragmentsOfMessage: Array[ByteBuffer]): Unit = {
     sender.sendFragmentsOfUnrequestingBinaryMessage(fragmentsOfMessage: _*);
   }
 }

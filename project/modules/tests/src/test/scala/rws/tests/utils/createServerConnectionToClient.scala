@@ -13,7 +13,6 @@ import rws.server.api.HandshakeAction;
 
 import rws.tests.utils.execOrReject;
 import rws.tests.utils.HolderOfValue;
-import rws.tests.utils.voidEventsListener;
 
 final object createServerConnectionToClient {
   def apply(
