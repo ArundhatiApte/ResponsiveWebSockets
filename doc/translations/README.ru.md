@@ -76,7 +76,7 @@ client|             |server
 Клиенту и серверу требуется общий компонент в виде отзывчивого webSocket соединения.
 Можно добавить только клиента, только сервер или все модули.
 Артефактов нет в интернет репозиториях, jar файлы находятся на странице выпусков.
-Для сборки необходимо скачать исходный код, перейти в папку project, выполнить в консоли `mvn package`.
+Для сборки необходимо скачать исходный код, перейти в папку project/, выполнить в консоли `mvn package`.
 В каталогах project/modules/*/target/ появятся jar файлы модулей:
 
 * в project/modules/responsiveWebSocketConnection/target/ - отзывчивого webSocket соединения
@@ -138,7 +138,7 @@ mvn install:install-file\
     <artifactId>responsive-web-socket-connection</artifactId>
     <version>${responsive-web-sockets.version}</version>
   </dependency>
-  
+
 </dependencies>
 ```
 
@@ -166,7 +166,7 @@ module some.project {
 
 #### Использование через консоль
 
-Создать папку для jigsaw модулей, например, mlib.
+Создать папку для jigsaw модулей, например mlib.
 В каталог поместить используемый набор jar файлов jigsaw компонентов.
 При компиляции через javac добавить параметр, указывающий путь к модулям: `javac --module-path where/mlib` ...
 Аналогично указать папку, запуская через java.
@@ -276,6 +276,21 @@ class VoidEventsListener implements EventsListener {
 Заголовок незапрашивающего сообщения состоит из 1 байта равного 3.
 
 Сообщения отправляются через двоичные фреймы WebSocket.
+
+### Тестирование
+
+Для запуска тестов требуется выполнить `mvn test` в папке project/. Также существует сценарий, проверяющий
+совместимость с версий ResponsiveWebSockets на JavaScript. Для запуска указанного скрипта требуется иметь
+зависимости для node.js, устанавливаемые командой `npm install` в каталоге project/modules/tests/. Выполнение
+проверки совместимости с версией на JavaScript происходит при помощи команды оболочки, выполняемой из папки
+project/:
+
+```shell
+mvn -pl modules/tests\
+  test-compile\
+  -e exec:java\
+  -Dexec.mainClass='rws.tests.checkСompatibilityWithVersionInJs.СheckingСompatibilityWithVersionInJsScript'
+```
 
 ### Ссылки:
 

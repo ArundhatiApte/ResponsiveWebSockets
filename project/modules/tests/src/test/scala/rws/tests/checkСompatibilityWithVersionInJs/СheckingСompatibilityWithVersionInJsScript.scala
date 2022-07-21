@@ -1,12 +1,5 @@
 package rws.tests.checkСompatibilityWithVersionInJs;
 
-/*
-  mvn -pl modules/tests\
-      test-compile\
-      -e exec:java\
-      -Dexec.mainClass='rws.tests.checkСompatibilityWithVersionInJs.СheckingСompatibilityWithVersionInJsScript'
-*/
-
 import org.scalatest.Assertions.assert;
 import org.scalatest.funsuite.AnyFunSuite;
 

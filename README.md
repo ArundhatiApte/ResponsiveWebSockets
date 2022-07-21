@@ -75,7 +75,7 @@ To install, you will need Java version 1.9 or higher. ResponsiveWebSockets packa
 
 The client and server need a common component in the form of a responsive WebSocket connection.
 There are no artifacts in online repositories. There are jar files on the releases page.
-To build, you need to download the source code, go to the project folder, execute 'mvn package` in the console.
+To build, you need to download the source code, go to the project/ folder, execute 'mvn package` in the console.
 Jar files of modules will appear in the project/modules/*/target/ directories:
 
 * in project/modules/responsiveWebSocketConnection/target/ - responsive webSocket connection
@@ -145,7 +145,7 @@ module some.project {
 }
 ```
 
-ResponsiveWebSockets client and server wrap 
+ResponsiveWebSockets client and server wrap
 [WebSockets module](https://github.com/TooTallNate/Java-WebSocket) with the following maven dependency:
 
 ```xml
@@ -269,6 +269,20 @@ Example: `0b00000010_00101010_01100110` (message number - 10854).
 The header of unrequesting message consists of 1 byte, which equal to 3.
 
 Messages are sent via WebSocket binary frames.
+
+### Testing
+
+Execute `mvn test` in project/ folder to run tests. There is script checking compatibility with version
+of ResponsiveWebSockets in JavaScript. To run the specified check, dependencies for node.js are required,
+which are installed using `npm install` in the project/modules/tests folder. The JavaScript version compatibility
+check is performed using a shell command executed from the project folder/:
+
+```shell
+mvn -pl modules/tests\
+  test-compile\
+  -e exec:java\
+  -Dexec.mainClass='rws.tests.checkСompatibilityWithVersionInJs.СheckingСompatibilityWithVersionInJsScript'
+```
 
 ### Links:
 
