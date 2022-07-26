@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "ResponsiveWebSockets": "https://github.com/ArundhatiApte/ResponsiveWebSockets.js/releases/download/v0.4.0/ResponsiveWebSockets.package.tar.gz",
+    "ResponsiveWebSockets": "https://github.com/ArundhatiApte/responsive-web-sockets-js/releases/download/v0.5.0/ResponsiveWebSockets.package.tar.gz",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.6.0"
   }
 }
