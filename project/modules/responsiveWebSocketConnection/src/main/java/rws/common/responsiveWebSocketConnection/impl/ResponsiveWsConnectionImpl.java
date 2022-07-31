@@ -27,8 +27,7 @@ import rws.common.responsiveWebSocketConnection.impl.VoidEventsListener;
 public class ResponsiveWsConnectionImpl implements ResponsiveWsConnection {
   public ResponsiveWsConnectionImpl(WebSocketConnection webSocketConnection) {
     this._webSocketConnection = webSocketConnection;
-    // subclass set attachment to this
-    // webSocketConnection.<ResponsiveWsConnectionImpl>setAttachment(this);
+    // subclass: webSocketConnection.<ResponsiveWsConnectionImpl>setAttachment(this);
 
     this._attachment = null;
     this._maxTimeMsToWaitResponse = _defaultMaxTimeMsToWaitResponse;
@@ -39,6 +38,7 @@ public class ResponsiveWsConnectionImpl implements ResponsiveWsConnection {
     this._idOfRequestToPromise = new LinkedMapWithUint16Key<EntryAboutPromiseOfBinaryRequest>();
     this._eventsListener = VoidEventsListener.instance;
 
+    // users avoid to change WebSocketConnection.EventsListener on webSocketConnection
     _setupListenerOfIncomingMessages(webSocketConnection);
   }
 

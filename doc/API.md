@@ -262,7 +262,14 @@ Class that wraps a standard WebSocket and implements ResponsiveWebSocketConnecti
 
 * webSocketConnection - Wrapped WebSocket connection
 
-Creates instance based on a WebSocket connection.
+Creates an implementation of `ResponsiveWsConnection` by internally setting an event handler
+`WebSocketConnection.EventsListener` to the wrapped `webSocketConnection`. After the call, you need to set a link
+to a new object for the WebSocket connection:
+
+```java
+ResponsiveWsConnectionImpl rwsc = new ResponsiveWsConnectionImpl(webSocketConnection);
+webSocketConnection.<ResponsiveWsConnectionImpl>setAttachment(rwsc);
+```
 
 ## package: rws.common.webSocketConnection
 

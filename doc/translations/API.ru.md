@@ -261,7 +261,14 @@ API отзывчивого WebSocket соединения.
 
 * webSocketConnection - Обёртываемое WebSocket соединение
 
-Создаёт объект, основанный на WebSocket соединении.
+Создаёт реализацию `ResponsiveWsConnection`, внутренне устанавливая обработчик событий
+`WebSocketConnection.EventsListener` на обёртываемое `webSocketConnection`. После вызова требуется установить ссылку
+на новый объект для WebSocket соединения:
+
+```java
+ResponsiveWsConnectionImpl rwsc = new ResponsiveWsConnectionImpl(webSocketConnection);
+webSocketConnection.<ResponsiveWsConnectionImpl>setAttachment(rwsc);
+```
 
 ## package: rws.common.webSocketConnection
 
