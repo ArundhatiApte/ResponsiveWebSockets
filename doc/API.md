@@ -1,44 +1,45 @@
-# ResponsiveWebSockets API  
+# ResponsiveWebSockets API
 
 #### Table of Contents
 
+
 - [module: rws.common](#module-rwscommon)
     - [package: rws.common.responsiveWebSocketConnection.api](#package-rwscommonresponsivewebsocketconnectionapi)
-        - [interface: ResponsiveWebSocketConnection](#interface-responsivewebsocketconnection)
+        - [interface: ResponsiveWsConnection](#interface-responsivewsconnection)
             * void close([int code[, String reason]])
             * `<T>` T getAttachment()
             * int getStartIndexOfBodyInBinaryResponse()
-            * String getURL()
+            * String getUrl()
             * `CompletableFuture<ByteBuffer>` sendBinaryRequest(ByteBuffer message[, int maxTimeMsToWaitResponse])
             * `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(ByteBuffer... fragments)
             * void sendFragmentsOfUnrequestingBinaryMessage(ByteBuffer... fragments)
             * void sendUnrequestingBinaryMessage(ByteBuffer message)
             * `<T>` void setAttachment(T attachment)
             * void setMaxTimeMsToWaitResponse(int timeMs)
-            * void setEventsListener(ResponsiveWebSocketConnection.EventsListener listener)
+            * void setEventsListener(ResponsiveWsConnection.EventsListener listener)
             * void terminate()
-        - [interface: ResponsiveWebSocketConnection.EventsListener](#interface-responsivewebsocketconnection.eventslistener)
+        - [interface: ResponsiveWsConnection.EventsListener](#interface-responsivewsconnection.eventslistener)
             * void onBinaryRequest(
-              ResponsiveWebSocketConnection c,
+              ResponsiveWsConnection c,
               ByteBuffer messageWithHeader,
               int startIndex,
               ResponseSender rs
             )
-            * void onClose(ResponsiveWebSocketConnection c, int code, String reason)
-            * void onError(ResponsiveWebSocketConnection c, Throwable error)
-            * void onMalformedBinaryMessage(ResponsiveWebSocketConnection c, ByteBuffer message)
-            * void onTextMessage(ResponsiveWebSocketConnection c, String message)
-            * void onUnrequestingBinaryMessage(ResponsiveWebSocketConnection c, ByteBuffer messageWithHeader, int startIndex)
+            * void onClose(ResponsiveWsConnection c, int code, String reason, boolean isRemote)
+            * void onError(ResponsiveWsConnection c, Throwable error)
+            * void onMalformedBinaryMessage(ResponsiveWsConnection c, ByteBuffer message)
+            * void onTextMessage(ResponsiveWsConnection c, String message)
+            * void onUnrequestingBinaryMessage(ResponsiveWsConnection c, ByteBuffer messageWithHeader, int startIndex)
         - [interface: ResponseSender](#interface-responsesender)
             * void sendBinaryResponse(ByteBuffer message)
             * void sendFragmentsOfBinaryResponse(ByteBuffer... fragments)
         - [class: TimeoutToReceiveResponseException](#[class-timeouttoreceiveresponseexception)
     - [package: rws.common.responsiveWebSocketConnection.impl](package-rwscommonresponsivewebsocketconnectionimpl)
-        - [class: ResponsiveWebSocketConnectionImpl](class-responsivewebsocketconnectionimpl)
-             * new ResponsiveWebSocketConnectionImpl(WebSocketConnection webSocketConnection)
+        - [class: ResponsiveWsConnectionImpl](class-responsivewsconnectionimpl)
+             * new ResponsiveWsConnectionImpl(WebSocketConnection webSocketConnection)
     - [package: rws.common.webSocketConnection](package-rwscommonwebsocketconnection)
         - [interface: WebSocketConnection](interface-websocketconnection)
-            * String getURL()
+            * String getUrl()
             * void close()
             * void close(int code)
             * void close(int code, String reason)
@@ -49,18 +50,18 @@
             * void sendTextMessage(String message)
             * void setEventsListener(WebSocketConnection.EventsListener eventsListener)
         - [interface: WebSocketConnection.EventsListener](interface-websocketconnectioneventslistener)
-            * void onClose(WebSocketConnection webSocketConnection, int code, String reason)
+            * void onClose(WebSocketConnection webSocketConnection, int code, String reason, boolean isRemote)
             * void onError(WebSocketConnection webSocketConnection, Throwable error)
             * void onBinaryMessage(WebSocketConnection webSocketConnection, ByteBuffer message)
             * void onTextMessage(WebSocketConnection webSocketConnection, String message)
 - [module: rws.client](module-rwsclient)
     - [package: rws.client.api](#package-rwsclientapi)
-        - [interface: ResponsiveWebSocketClient](#interface-responsivewebsocketclient)
+        - [interface: ResponsiveWsClient](#interface-responsivewsclient)
             * `CompletableFuture<Void>` connect()
             * void connectBlocking()
     - [package: rws.client.impl](#package-rwsclientimpl)
-        - [class: ResponsiveWebSocketClientImpl](#class-responsivewebsocketclientimpl)
-            * new ResponsiveWebSocketClientImpl(URI uri[, Draft protocolDraft])
+        - [class: ResponsiveWsClientImpl](#class-responsivewsclientimpl)
+            * new ResponsiveWsClientImpl(URI uri[, Draft protocolDraft])
             * WebSocketClient asWebSocketClient()
 - [module: rws.server](module-rwsserver)
     - [package: rws.server.api](#package-rwsserverapi)
@@ -68,29 +69,29 @@
             * void acceptConnection()
             * `<T>` void acceptConnection(T userData)
             * void rejectConnection()
-        - [interface: ResponsiveWebSocketServer](#interface-responsivewebsocketserver)
+        - [interface: ResponsiveWsServer](#interface-responsivewsserver)
             * void close() throws InterruptedException
             * `CompletableFuture<Void>` start()
-            * void setEventsListener(ResponsiveWebSocketServer.EventsListener listener)
-        - [interface: ResponsiveWebSocketServer.EventsListener](#interface-responsivewebsocketserver.eventslistener)
+            * void setEventsListener(ResponsiveWsServer.EventsListener listener)
+        - [interface: ResponsiveWsServer.EventsListener](#interface-responsivewsservereventslistener)
             * void onUpgrade(ClientHandshake request, HandshakeAction handshakeAction)
-            * void onConnection(ResponsiveWebSocketServerConnection serverConnection)
-        - [interface: ResponsiveWebSocketServerConnection](#interface-responsivewebsocketserverconnection)
+            * void onConnection(ResponsiveWsServerConnection serverConnection)
+        - [interface: ResponsiveWsServerConnection](#interface-responsivewsserverconnection)
             * InetSocketAddress getRemoteSocketAddress()
     - [package: rws.server.impl](#package-rwsserverimpl)
-        - [class: ResponsiveWebSocketServerImpl](#class-responsivewebsocketserverimpl)
+        - [class: ResponsiveWsServerImpl](#class-responsivewsserverimpl)
             * new ResponsiveWsServerImpl(InetSocketAddress address[, List<Draft> protocolsDrafts])
             * WebSocketServer asWebSocketServer()
 
 # module rws.common
 
-Base module for ResponsiveWebSocketConnection.
+Base module for ResponsiveWsConnection.
 
 ## package: rws.connection.api
 
-ResponsiveWebSocketConnection API.
+ResponsiveWsConnection API.
 
-### interface: ResponsiveWebSocketConnection
+### interface: ResponsiveWsConnection
 
 Base interface for server connection and client.
 
@@ -106,7 +107,7 @@ Returns user's data.
 
 Returns index of the first byte in binary response, from which the message body begins.
 
-#### public String getURL()
+#### public String getUrl()
 
 Returns URL.
 
@@ -117,7 +118,7 @@ Returns URL.
 
 Sends awaiting response binary message.
 The recepient has the ability to send a response by overriding `onBinaryRequest` method of
-`ResponsiveWebSocketConnection.EventsListener` interface.
+`ResponsiveWsConnection.EventsListener` interface.
 By default `maxTimeMsToWaitResponse` is value setted by `setMaxTimeMsToWaitResponse` method.
 If response will not arrive within `maxTimeMsToWaitResponse` time milliseconds,
 the `CompletableFuture` will be rejected with `TimeoutToReceiveResponseException`.
@@ -144,7 +145,7 @@ avoiding memory allocation for the entire message.
 
 Sends binary message without waiting response.
 Recepient can handle data by overriding `onUnrequestingBinaryMessage` method of
-`ResponsiveWebSocketConnection.EventsListener` interface.
+`ResponsiveWsConnection.EventsListener` interface.
 
 #### public `<T>` void setAttachment(T attachment)
 
@@ -158,7 +159,7 @@ Sets default maximum time in milliseconds for waiting response on request.
 This time can be redefined in second parametr in `sendBinaryRequest` method.
 By default 2000.
 
-#### public void setEventsListener(ResponsiveWebSocketConnection.EventsListener listener)
+#### public void setEventsListener(ResponsiveWsConnection.EventsListener listener)
 
 Sets events listener for this connection. Handler can't be null.
 
@@ -166,9 +167,9 @@ Sets events listener for this connection. Handler can't be null.
 
 Forcibly close the connection.
 
-### interface: ResponsiveWebSocketConnection.EventsListener
+### interface: ResponsiveWsConnection.EventsListener
 
-#### public void onBinaryRequest(ResponsiveWebSocketConnection c, ByteBuffer messageWithHeader, int startIndex, ResponseSender rs)
+#### public void onBinaryRequest(ResponsiveWsConnection c, ByteBuffer messageWithHeader, int startIndex, ResponseSender rs)
 
 * c - The connection that received the request
 * messageWithHeader - Message containing the header and the body transmitted by the sender
@@ -177,19 +178,19 @@ Forcibly close the connection.
 
 Listener of event, that occurs when a binary message is received, the sender of which is waiting for a response.
 
-#### public void onClose(ResponsiveWebSocketConnection c, int code, String reason)
+#### public void onClose(ResponsiveWsConnection c, int code, String reason)
 
 * c - The closed connection
 
 Listener of event, that occurs when inner WebSocket connection is closed.
 
-#### public void onError(ResponsiveWebSocketConnection c, Throwable error)
+#### public void onError(ResponsiveWsConnection c, Throwable error)
 
 * c - The connection, during which work the error had occured
 
 Listener of error from inner WebSocket connection
 
-#### public void onMalformedBinaryMessage(ResponsiveWebSocketConnection c, ByteBuffer message)
+#### public void onMalformedBinaryMessage(ResponsiveWsConnection c, ByteBuffer message)
 
 * c - The connection that received the message
 * message - Binary message
@@ -205,14 +206,14 @@ then the message is treated as a response
 * if the first byte of the message is 3 (as an unsigned integer),
 then the message is treated as a unrequesting message
 
-#### public void onTextMessage(ResponsiveWebSocketConnection c, String message)
+#### public void onTextMessage(ResponsiveWsConnection c, String message)
 
 * c - The connection that received the message
 * message - Text message
 
 Listener of event, that occurs when a text message is received.
 
-#### public void onUnrequestingBinaryMessage(ResponsiveWebSocketConnection c, ByteBuffer messageWithHeader, int startIndex)
+#### public void onUnrequestingBinaryMessage(ResponsiveWsConnection c, ByteBuffer messageWithHeader, int startIndex)
 
 * c - The connection that received the message
 * messageWithHeader - Message containing the header and the body transmitted from the sender
@@ -247,13 +248,13 @@ did not arrive during the max time for waiting.
 
 ## package: rws.common.responsiveWebSocketConnection.impl
 
-### class: ResponsiveWebSocketConnectionImpl
+### class: ResponsiveWsConnectionImpl
 
-* implements ResponsiveWebSocketConnection
+* implements ResponsiveWsConnection
 
 Class that wraps a standard WebSocket and implements ResponsiveWebSocketConnection interface.
 
-#### new ResponsiveWebSocketConnectionImpl(WebSocketConnection webSocketConnection)
+#### new ResponsiveWsConnectionImpl(WebSocketConnection webSocketConnection)
 
 * webSocketConnection - Wrapped WebSocket connection
 
@@ -272,9 +273,9 @@ internally based on [Java WebSocket][Java-WebSocket].
 
 ## package: rws.client.api
 
-### interface: ResponsiveWebSocketClient
+### interface: ResponsiveWsClient
 
-* extends ResponsiveWebSocketConnection
+* extends ResponsiveWsConnection
 
 #### public `CompletableFuture<Void>` connect()
 
@@ -286,18 +287,18 @@ Connects to the WebSocket server.
 
 ## package: rws.client.impl
 
-### class: ResponsiveWebSocketClientImpl
+### class: ResponsiveWsClientImpl
 
-* implements ResponsiveWebSocketConnection, ResponsiveWebSocketClient
-* extends ResponsiveWebSocketConnectionImpl
+* implements ResponsiveWsConnection, ResponsiveWsClient
+* extends ResponsiveWsConnectionImpl
 
-#### new ResponsiveWebSocketClientImpl(URI uri[, Draft protocolDraft])
+#### new ResponsiveWsClientImpl(URI uri[, Draft protocolDraft])
 
 * uri - WebSocket server adress
 * protocolDraft - WebSocket protocol draft from package `org.java_websocket.drafts`
 of the [Java WebSocket][Java-WebSocket] module.
 
-Creates instance of `ResponsiveWebSocketClientImpl`.
+Creates instance of `ResponsiveWsClientImpl`.
 
 #### WebSocketClient asWebSocketClient()
 
@@ -329,7 +330,7 @@ Accepts a request to create a WebSocket connection.
 
 Rejects the request to create a WebSocket connection.
 
-### interface: ResponsiveWebSocketServer
+### interface: ResponsiveWsServer
 
 #### public void close() throws InterruptedException
 
@@ -339,11 +340,11 @@ Closes server.
 
 Starts address listening.
 
-#### public void setEventsListener(ResponsiveWebSocketServer.EventsListener listener)
+#### public void setEventsListener(ResponsiveWsServer.EventsListener listener)
 
 Sets listener of request on updgrade and connection events.
 
-### interface: ResponsiveWebSocketServer.EventsListener
+### interface: ResponsiveWsServer.EventsListener
 
 #### public void onUpgrade(ClientHandshake request, HandshakeAction handshakeAction)
 
@@ -352,15 +353,15 @@ of the [Java WebSocket][Java-WebSocket] module
 
 Listener of event that occurs when server receive request to create a WebSocket connection.
 
-#### public void onConnection(ResponsiveWebSocketServerConnection serverConnection)
+#### public void onConnection(ResponsiveWsServerConnection serverConnection)
 
 * serverConnection - Connection to client
 
 Listener of event that occurs when the WebSocket client connects to the server.
 
-### interface: ResponsiveWebSocketServerConnection
+### interface: ResponsiveWsServerConnection
 
-* extends ResponsiveWebSocketConnection
+* extends ResponsiveWsConnection
 
 Server connection to the client.
 
@@ -370,13 +371,13 @@ Returns the remote socket IP address.
 
 ## package: rws.server.impl
 
-### class: ResponsiveWebSocketServerImpl
+### class: ResponsiveWsServerImpl
 
-* implements ResponsiveWebSocketServer
+* implements ResponsiveWsServer
 
 ResponsiveWebSocketServer based on the [Java WebSocket][Java-WebSocket].
 
-#### new ResponsiveWebSocketServerImpl(InetSocketAddress address[, List protocolsDrafts])
+#### new ResponsiveWsServerImpl(InetSocketAddress address[, List protocolsDrafts])
 
 * address - The local address on which server will be started
 * protocolsDrafts - List of WebSocket protocols drafts from package `org.java_websocket.drafts`
