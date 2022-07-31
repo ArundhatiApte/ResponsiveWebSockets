@@ -115,6 +115,14 @@ public class ResponsiveWsConnectionImpl implements ResponsiveWsConnection {
   }
 
   @Override
+  public final CompletableFuture<ByteBuffer> sendFragmentsOfBinaryRequest(
+    int maxTimeMsToWaitResponse,
+    ByteBuffer... fragments
+  ) {
+    return SendingFragmentsOfBinaryRequestMethod.instance.apply(this, fragments, maxTimeMsToWaitResponse);
+  }
+
+  @Override
   public final void sendUnrequestingBinaryMessage(ByteBuffer message) {
     SendingUnrequestingBinaryMessageMethod.instance.apply(this, message);
   }

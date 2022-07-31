@@ -19,7 +19,12 @@ public interface ResponsiveWsConnection {
 
   public CompletableFuture<ByteBuffer> sendBinaryRequest(ByteBuffer message);
   public CompletableFuture<ByteBuffer> sendBinaryRequest(ByteBuffer message, int maxTimeMsToWaitResponse);
+
   public CompletableFuture<ByteBuffer> sendFragmentsOfBinaryRequest(ByteBuffer... fragments);
+  public CompletableFuture<ByteBuffer> sendFragmentsOfBinaryRequest(
+    int maxTimeMsToWaitResponse,
+    ByteBuffer... fragments
+  );
 
   public void sendUnrequestingBinaryMessage(ByteBuffer message);
   public void sendFragmentsOfUnrequestingBinaryMessage(ByteBuffer... fragments);

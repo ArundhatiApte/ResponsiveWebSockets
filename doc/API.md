@@ -11,7 +11,10 @@
             * int getStartIndexOfBodyInBinaryResponse()
             * String getUrl()
             * `CompletableFuture<ByteBuffer>` sendBinaryRequest(ByteBuffer message[, int maxTimeMsToWaitResponse])
-            * `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(ByteBuffer... fragments)
+            * `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(
+              [int maxTimeMsToWaitResponse, ]
+              ByteBuffer... fragments
+            )
             * void sendFragmentsOfUnrequestingBinaryMessage(ByteBuffer... fragments)
             * void sendUnrequestingBinaryMessage(ByteBuffer message)
             * `<T>` void setAttachment(T attachment)
@@ -114,7 +117,7 @@ Returns URL.
 #### public `CompletableFuture<ByteBuffer>` sendBinaryRequest(ByteBuffer message[, int maxTimeMsToWaitResponse])
 
 * message - Binary message
-* maxTimeMsToWaitResponse - Count of milliseconds
+* maxTimeMsToWaitResponse - Count of milliseconds for waiting the response
 
 Sends awaiting response binary message.
 The recepient has the ability to send a response by overriding `onBinaryRequest` method of
@@ -123,8 +126,9 @@ By default `maxTimeMsToWaitResponse` is value setted by `setMaxTimeMsToWaitRespo
 If response will not arrive within `maxTimeMsToWaitResponse` time milliseconds,
 the `CompletableFuture` will be rejected with `TimeoutToReceiveResponseException`.
 
-#### public `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(ByteBuffer... fragments)
+#### public `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest([int maxTimeMsToWaitResponse, ]ByteBuffer... fragments)
 
+* maxTimeMsToWaitResponse - Count of milliseconds for waiting the response
 * fragments - Binary fragments of the message
 
 Sends binary request, similar as `sendBinaryRequest`.

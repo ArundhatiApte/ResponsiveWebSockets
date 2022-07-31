@@ -10,7 +10,10 @@
             * int getStartIndexOfBodyInBinaryResponse()
             * String getUrl()
             * `CompletableFuture<ByteBuffer>` sendBinaryRequest(ByteBuffer message[, int maxTimeMsToWaitResponse])
-            * `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(ByteBuffer... fragments)
+            * `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(
+              [int maxTimeMsToWaitResponse, ]
+              ByteBuffer... fragments
+            )
             * void sendFragmentsOfUnrequestingBinaryMessage(ByteBuffer... fragments)
             * void sendUnrequestingBinaryMessage(ByteBuffer message)
             * `<T>` void setAttachment(T attachment)
@@ -123,8 +126,9 @@ API отзывчивого WebSocket соединения.
 Если ответ не придет в течение `maxTimeMsToWaitResponse` миллисекунд,
 `CompletableFuture` завершится исключением `TimeoutToReceiveResponseException`.
 
-#### public `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest(ByteBuffer... fragments)
+#### public `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest([int maxTimeMsToWaitResponse, ]ByteBuffer... fragments)
 
+* maxTimeMsToWaitResponse - Максимальное время ожидания ответа
 * fragments - Части сообщения
 
 Отправляет двоичный запрос, также как `sendBinaryRequest`.
@@ -143,7 +147,7 @@ API отзывчивого WebSocket соединения.
 
 Отправляет двоичное сообщение без ожидания ответа.
 Получатель имеет возможность увидеть данные,
-переопределив метод `onUnrequestingBinaryMessage` интерфейса `ResponsiveWebSocketConnection.EventsListener`.
+переопределив метод `onUnrequestingBinaryMessage` интерфейса `ResponsiveWsConnection.EventsListener`.
 
 #### public `<T>` void setAttachment(T attachment)
 
