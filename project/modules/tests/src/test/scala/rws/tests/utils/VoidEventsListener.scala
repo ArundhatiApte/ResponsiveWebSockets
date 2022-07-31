@@ -7,7 +7,7 @@ import rws.common.responsiveWebSocketConnection.api.ResponsiveWsConnection.Event
 import rws.common.responsiveWebSocketConnection.api.ResponseSender;
 
 class VoidEventsListener extends EventsListener {
-  override def onClose(c: Rwsc, code: Int, reason: String): Unit = {}
+  override def onClose(c: Rwsc, code: Int, reason: String, isRemote: Boolean): Unit = {}
   override def onError(c: Rwsc, error: Throwable): Unit = {}
 
   override def onMalformedBinaryMessage(c: Rwsc, message: ByteBuffer): Unit = {}

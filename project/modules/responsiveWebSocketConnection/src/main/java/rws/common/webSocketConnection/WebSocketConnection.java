@@ -3,7 +3,7 @@ package rws.common.webSocketConnection;
 import java.nio.ByteBuffer;
 
 public interface WebSocketConnection {
-  public String getURL();
+  public String getUrl();
 
   public void close();
   public void close(int code);
@@ -19,7 +19,7 @@ public interface WebSocketConnection {
   public void setEventsListener(WebSocketConnection.EventsListener eventsListener);
 
   public static interface EventsListener {
-    public void onClose(WebSocketConnection webSocketConnection, int code, String reason);
+    public void onClose(WebSocketConnection webSocketConnection, int code, String reason, boolean isRemote);
     public void onError(WebSocketConnection webSocketConnection, Throwable error);
     public void onBinaryMessage(WebSocketConnection webSocketConnection, ByteBuffer message);
     public void onTextMessage(WebSocketConnection webSocketConnection, String message);

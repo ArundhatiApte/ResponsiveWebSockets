@@ -142,6 +142,6 @@ final class WrappedWebSocketServer extends WebSocketServer {
     ServerWebSocketConnection webSocketConnection = webSocket.<ServerWebSocketConnection>getAttachment();
     // always setted by ResponsiveWsConnectionImpl
     WebSocketConnection.EventsListener eventsListener = webSocketConnection._eventsListener;
-    eventsListener.onClose(webSocketConnection, code, reason);
+    eventsListener.onClose(webSocketConnection, code, reason, isRemote);
   }
 }

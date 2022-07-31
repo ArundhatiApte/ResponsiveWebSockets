@@ -10,12 +10,16 @@ final class VoidEventsListener implements ResponsiveWsConnection.EventsListener 
 
   private VoidEventsListener() {}
 
-  public void onClose(ResponsiveWsConnection connection, int code, String reason) {}
+  @Override
+  public void onClose(ResponsiveWsConnection connection, int code, String reason, boolean isRemote) {}
+  @Override
   public void onError(ResponsiveWsConnection connection, Throwable error) {}
-
+  @Override
   public void onMalformedBinaryMessage(ResponsiveWsConnection connection, ByteBuffer message) {}
+  @Override
   public void onTextMessage(ResponsiveWsConnection connection, String message) {}
 
+  @Override
   public void onBinaryRequest(
     ResponsiveWsConnection connection,
     ByteBuffer messageWithHeader,
@@ -23,5 +27,10 @@ final class VoidEventsListener implements ResponsiveWsConnection.EventsListener 
     ResponseSender responseSender
   ) {}
 
-  public void onUnrequestingBinaryMessage(ResponsiveWsConnection connection, ByteBuffer messageWithHeader, int startIndex) {}
+  @Override
+  public void onUnrequestingBinaryMessage(
+    ResponsiveWsConnection connection,
+    ByteBuffer messageWithHeader,
+    int startIndex
+  ) {}
 }

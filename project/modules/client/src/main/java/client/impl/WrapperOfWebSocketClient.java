@@ -31,7 +31,7 @@ final class WrapperOfWebSocketClient implements WebSocketConnection {
   protected final WrappedWebSocketClient _wrappedWebSocketClient;
 
   @Override
-  public String getURL() {
+  public String getUrl() {
     return this._wrappedWebSocketClient.getURI().toString();
   }
 

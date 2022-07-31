@@ -20,13 +20,13 @@ final object checkClosingConnection {
     val reason = "message"
 
     acceptingEventSide.setEventsListener(new VoidEventsListener() {
-      override def onClose(c: Rwsc, eCode: Int, eReason: String): Unit = {
+      override def onClose(c: Rwsc, eCode: Int, eReason: String, isRemote: Boolean): Unit = {
         execOrReject(() => {
-          if (code == eCode && reason == eReason) {
+          if (isRemote == true && code == eCode && reason == eReason) {
             checking.complete(null);
           } else {
             checking.completeExceptionally(new RuntimeException(
-              "(" + code + ", " + reason + ") != (" + eCode + ", " + eReason + ")"
+              "(" + code + ", " + reason + ", true) != (" + eCode + ", " + eReason + ", " + isRemote + ")"
             ));
           }
         }, checking);

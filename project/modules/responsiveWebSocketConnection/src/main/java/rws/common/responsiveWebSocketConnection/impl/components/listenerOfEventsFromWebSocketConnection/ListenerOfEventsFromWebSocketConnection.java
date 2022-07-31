@@ -13,22 +13,26 @@ final class ListenerOfEventsFromWebSocketConnection implements WebSocketConnecti
   private ListenerOfEventsFromWebSocketConnection() {}
 
   // ResponsiveWebSocketConnectionImpl use VoidEventsListener by default and
-  // restrict to set null _eventsListener
+  // restricts to set null _eventsListener
 
-  public void onClose(WebSocketConnection webSocketConnection, int code, String reason) {
+  @Override
+  public void onClose(WebSocketConnection webSocketConnection, int code, String reason, boolean isRemote) {
     ResponsiveWsConnectionImpl rwsc = webSocketConnection.<ResponsiveWsConnectionImpl>getAttachment();
-    rwsc._eventsListener.onClose(rwsc, code, reason);
+    rwsc._eventsListener.onClose(rwsc, code, reason, isRemote);
   }
 
+  @Override
   public void onError(WebSocketConnection webSocketConnection, Throwable error) {
     ResponsiveWsConnectionImpl rwsc = webSocketConnection.<ResponsiveWsConnectionImpl>getAttachment();
     rwsc._eventsListener.onError(rwsc, error);
   }
 
+  @Override
   public void onBinaryMessage(WebSocketConnection webSocketConnection, ByteBuffer message) {
     EmittingEventByIncomingBinaryMessageFn.instance.apply(webSocketConnection, message);
   }
 
+  @Override
   public void onTextMessage(WebSocketConnection webSocketConnection, String message) {
     ResponsiveWsConnectionImpl rwsc = webSocketConnection.<ResponsiveWsConnectionImpl>getAttachment();
     rwsc._eventsListener.onTextMessage(rwsc, message);

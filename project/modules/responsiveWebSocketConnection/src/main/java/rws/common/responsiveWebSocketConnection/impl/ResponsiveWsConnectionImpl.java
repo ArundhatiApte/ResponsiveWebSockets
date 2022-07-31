@@ -95,8 +95,8 @@ public class ResponsiveWsConnectionImpl implements ResponsiveWsConnection {
   }
 
   @Override
-  public final String getURL() {
-    return this._webSocketConnection.getURL();
+  public final String getUrl() {
+    return this._webSocketConnection.getUrl();
   }
 
   @Override

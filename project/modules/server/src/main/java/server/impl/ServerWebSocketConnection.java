@@ -27,7 +27,7 @@ final class ServerWebSocketConnection implements WebSocketConnection {
   }
 
   @Override
-  public String getURL() {
+  public String getUrl() {
     return this._url;
   }
 

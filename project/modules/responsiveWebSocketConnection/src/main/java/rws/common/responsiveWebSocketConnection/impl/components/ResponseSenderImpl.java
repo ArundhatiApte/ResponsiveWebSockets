@@ -21,6 +21,7 @@ final class ResponseSenderImpl implements ResponseSender {
   private final ResponsiveWsConnectionImpl _responsiveWebSocketConnection;
   private final char _idOfMessage;
 
+  @Override
   public void sendBinaryResponse(ByteBuffer message) {
     ResponsiveWsConnectionImpl responsiveWebSocketConnection = this._responsiveWebSocketConnection;
     synchronized(responsiveWebSocketConnection) {
@@ -32,6 +33,7 @@ final class ResponseSenderImpl implements ResponseSender {
     }
   }
 
+  @Override
   public void sendFragmentsOfBinaryResponse(ByteBuffer... fragments) {
     ResponsiveWsConnectionImpl responsiveWebSocketConnection = this._responsiveWebSocketConnection;
     synchronized(responsiveWebSocketConnection) {

@@ -77,6 +77,6 @@ final class WrappedWebSocketClient extends org.java_websocket.client.WebSocketCl
     }
 
     WrapperOfWebSocketClient wrapper = this._wrapper;
-    wrapper._eventsListener.onClose(wrapper, code, reason);
+    wrapper._eventsListener.onClose(wrapper, code, reason, isRemote);
   }
 }

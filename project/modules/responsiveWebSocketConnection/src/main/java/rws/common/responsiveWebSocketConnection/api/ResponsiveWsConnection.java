@@ -15,7 +15,7 @@ public interface ResponsiveWsConnection {
   public <T> void setAttachment(T attachment);
 
   public int getStartIndexOfBodyInBinaryResponse();
-  public String getURL();
+  public String getUrl();
 
   public CompletableFuture<ByteBuffer> sendBinaryRequest(ByteBuffer message);
   public CompletableFuture<ByteBuffer> sendBinaryRequest(ByteBuffer message, int maxTimeMsToWaitResponse);
@@ -28,7 +28,7 @@ public interface ResponsiveWsConnection {
   public void setEventsListener(ResponsiveWsConnection.EventsListener listener);
 
   public static interface EventsListener {
-    public void onClose(ResponsiveWsConnection connection, int code, String reason);
+    public void onClose(ResponsiveWsConnection connection, int code, String reason, boolean isRemote);
     public void onError(ResponsiveWsConnection connection, Throwable error);
 
     public void onMalformedBinaryMessage(ResponsiveWsConnection connection, ByteBuffer message);
@@ -40,7 +40,11 @@ public interface ResponsiveWsConnection {
       int startIndex,
       ResponseSender responseSender
     );
-    public void onUnrequestingBinaryMessage(ResponsiveWsConnection connection, ByteBuffer messageWithHeader, int startIndex);
+    public void onUnrequestingBinaryMessage(
+      ResponsiveWsConnection connection,
+      ByteBuffer messageWithHeader,
+      int startIndex
+    );
   }
 }
 
