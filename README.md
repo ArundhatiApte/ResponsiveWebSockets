@@ -170,28 +170,28 @@ Similarly, specify the folder by launching via java.
 ```java
 class VoidEventsListener implements EventsListener {
   @Override
-  public void onClose(ResponsiveWebSocketConnection c, int code, String reason) {}
+  public void onClose(ResponsiveWsConnection c, int code, String reason, boolean isRemote) {}
 
   @Override
-  public void onError(ResponsiveWebSocketConnection c, Throwable error) {}
+  public void onError(ResponsiveWsConnection c, Throwable error) {}
 
   @Override
   public void onBinaryRequest(
-    ResponsiveWebSocketConnection c,
+    ResponsiveWsConnection c,
     ByteBuffer messageWithHeader,
     int startIndex,
     ResponseSender rs
   ) {}
 
   @Override
-  public void onMalformedBinaryMessage(ResponsiveWebSocketConnection c, ByteBuffer message) {}
+  public void onMalformedBinaryMessage(ResponsiveWsConnection c, ByteBuffer message) {}
 
   @Override
-  public void onTextMessage(ResponsiveWebSocketConnection c, String message) {}
+  public void onTextMessage(ResponsiveWsConnection c, String message) {}
 
   @Override
   public void onUnrequestingBinaryMessage(
-    ResponsiveWebSocketConnection c,
+    ResponsiveWsConnection c,
     ByteBuffer messageWithHeader,
     int startIndex
   ) {}
@@ -201,7 +201,7 @@ class VoidEventsListener implements EventsListener {
   final EventsListener echoOnBinaryRequestListener = new VoidEventsListener() {
     @Override
     public void onBinaryRequest(
-      ResponsiveWebSocketConnection c,
+      ResponsiveWsConnection c,
       ByteBuffer messageWithHeader,
       int startIndex,
       ResponseSender rs

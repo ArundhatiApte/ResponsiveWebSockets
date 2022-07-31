@@ -32,7 +32,7 @@ public final class ExampleFromReadme {
 
     class VoidEventsListener implements EventsListener {
       @Override
-      public void onClose(ResponsiveWsConnection c, int code, String reason) {}
+      public void onClose(ResponsiveWsConnection c, int code, String reason, boolean isRemote) {}
 
       @Override
       public void onError(ResponsiveWsConnection c, Throwable error) {}
