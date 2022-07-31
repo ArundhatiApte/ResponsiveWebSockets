@@ -287,5 +287,5 @@ mvn -pl modules/tests\
 ### Links:
 
 - [API documentation](/doc/translations/API.ru.md)
-- [Examples of usage](/src/test/java/rws/examples)
-- [ResponsiveWebSockets in JavaScript](https://github.com/ArundhatiApte/ResponsiveWebSockets.js)
+- [Examples of usage](/project/modules/examples/src/test/java/examples/src/test/java/examples/)
+- [ResponsiveWebSockets in JavaScript](https://github.com/ArundhatiApte/responsive-web-sockets-js)

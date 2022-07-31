@@ -123,7 +123,7 @@ API отзывчивого WebSocket соединения.
 интерфейса `ResponsiveWsConnection.EventsListener`.
 По умолчанию максимальное время ожидания ответа `maxTimeMsToWaitResponse` равно значению,
 установленному методом `setMaxTimeMsToWaitResponse`.
-Если ответ не придет в течение `maxTimeMsToWaitResponse` миллисекунд,
+Если ответ не придет в течении `maxTimeMsToWaitResponse` миллисекунд,
 `CompletableFuture` завершится исключением `TimeoutToReceiveResponseException`.
 
 #### public `CompletableFuture<ByteBuffer>` sendFragmentsOfBinaryRequest([int maxTimeMsToWaitResponse, ]ByteBuffer... fragments)
@@ -184,6 +184,9 @@ API отзывчивого WebSocket соединения.
 ### public void onClose(ResponsiveWsConnection c, int code, String reason, boolean isRemote)
 
 * c - Закрываемое соединение
+* code - Числовой код
+* reason - Причина закрытия
+* isRemote - Произошло ли по инициативе удалённой стороны
 
 Событие, возникающее при закрытии WebSocket соединения.
 
