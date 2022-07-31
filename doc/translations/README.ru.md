@@ -295,5 +295,5 @@ mvn -pl modules/tests\
 ### Ссылки:
 
 - [Документация по API](/doc/translations/API.ru.md)
-- [Примеры использования](/project/modules/examples/src/test/java/examples/src/test/java/examples/)
+- [Примеры использования](/project/modules/examples/src/test/java/examples/)
 - [ResponsiveWebSockets на JavaScript](https://github.com/ArundhatiApte/responsive-web-sockets-js)
